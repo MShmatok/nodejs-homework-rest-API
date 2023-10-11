@@ -9,18 +9,18 @@ const updateContacts = async (data) => {
 }
 
 const listContacts = async () => {
-  const buffer = fs.readFile(contactPath,)
+  const buffer = await fs.readFile(contactPath)
   return JSON.parse(buffer);
 }
 
 const getContactById = async (contactId) => {
-  const allContact = listContacts();
+  const allContact = await listContacts();
   const result = allContact.find(contact => contact.id === contactId);
   return result || null;
 }
 
 const removeContact = async (contactId) => {
-  const allContact = listContacts();
+  const allContact = await listContacts();
 
   const deleteIndex = allContact.findIndex(contact => contact.id === contactId);
   if (deleteIndex === -1) {
@@ -33,7 +33,7 @@ const removeContact = async (contactId) => {
 }
 
 const addContact = async ({ name, email, phone }) => {
-  const allContact = listContacts();
+  const allContact = await listContacts();
   const newContact = {
     id: nanoid(),
     name,
@@ -46,7 +46,7 @@ const addContact = async ({ name, email, phone }) => {
 }
 
 const updateContact = async (contactId, { name, email, phone }) => {
-  const allContact = listContacts();
+  const allContact = await listContacts();
   const updateElementIndex = allContact.findIndex(contact => contact.id === contactId);
   if (updateElementIndex === -1) {
     return null;

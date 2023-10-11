@@ -1,17 +1,12 @@
 import express from "express";
-
-import contactsService from "../../models/contacts/index.js";
+// import { isEmptyBody } from '../../midllewares/index.js'
+import contactsControllers from '../../controllers/contact-controller.js'
 
 const contactsRouter = express.Router()
 
-contactsRouter.get('/', async (req, res, next) => {
-  const result = await contactsService.listContacts();
-  res.json(result);
-})
+contactsRouter.get('/', contactsControllers.getAll)
 
-contactsRouter.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+contactsRouter.get('/:contactId', contactsControllers.getAll)
 
 contactsRouter.post('/', async (req, res, next) => {
   res.json({ message: 'template message' })
