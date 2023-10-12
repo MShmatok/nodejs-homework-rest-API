@@ -5,7 +5,6 @@ import { nanoid } from 'nanoid'
 const contactPath = path.resolve('models', 'contacts', 'contacts.json');
 const updateContacts = async (data) => {
   await fs.writeFile(contactPath, JSON.stringify(data, null, 2));
-
 }
 
 const listContacts = async () => {
@@ -51,7 +50,8 @@ const updateContact = async (contactId, { name, email, phone }) => {
   if (updateElementIndex === -1) {
     return null;
   }
-  allContact[updateElementIndex] = { name, email, phone };
+
+  allContact[updateElementIndex] = { id: contactId, name, email, phone };
   await updateContacts(allContact);
   return allContact[updateElementIndex];
 

@@ -7,17 +7,17 @@ const getAll = async (req, res) => {
 
     const result = await contactService.listContacts();
 
-    if (!result) {
+    if (result.length === 0) {
         throw httpError(404, `Movies not found`);
     }
     res.status(200).json(result);
 
 }
 const getById = async (req, res) => {
-    const { id } = req.params;
-    const result = await contactService.getContactById(id);
+    const { contactId } = req.params;
+    const result = await contactService.getContactById(contactId);
     if (!result) {
-        throw httpError(404, `Movie with ${id} not found`);
+        throw httpError(404, `Movie with ${contactId} not found`);
     }
     res.status(200).json(result);
 }
@@ -26,19 +26,19 @@ const addNew = async (req, res) => {
     res.status(201).json(result);
 }
 const updateById = async (req, res) => {
-    const { id } = req.params;
-    const result = await contactService.updateContact(id, req.body);
+    const { contactId } = req.params;
+    const result = await contactService.updateContact(contactId, req.body);
     if (!result) {
-        throw httpError(404, `Movie with ${id} not found`);
+        throw httpError(404, `Movie with ${contactId} not found`);
     }
     res.status(200).json(result);
 }
 
 const deleteById = async (req, res) => {
-    const { id } = req.params;
-    const result = await contactService.removeContact(id);
+    const { contactId } = req.params;
+    const result = await contactService.removeContact(contactId);
     if (!result) {
-        throw httpError(404, `Movie with ${id} not found`);
+        throw httpError(404, `Movie with ${contactId} not found`);
     }
     res.status(200).json({
         message: "contact deleted"
