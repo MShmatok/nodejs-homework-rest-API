@@ -1,13 +1,14 @@
-import contactService from '../models/contacts/index.js'
+// import contactService from '../models/contacts/index.js'
+import ModelMovies from '../models/contacts.js';
 import { httpError } from '../helpers/index.js';
 import { ctrlWrapper } from '../decorators/index.js'
 
 
 const getAll = async (req, res) => {
 
-    const result = await contactService.listContacts();
+    const result = await ModelMovies.find();
 
-    if (result.length === 0) {
+    if (!result) {
         throw httpError(404, `Movies not found`);
     }
     res.status(200).json(result);
