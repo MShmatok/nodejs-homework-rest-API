@@ -5,8 +5,9 @@ import { ctrlWrapper } from '../decorators/index.js'
 
 
 const getAll = async (req, res) => {
-
-    const result = await ModelContacts.find();
+    const { page = 1, limit = 10, favorite = [true, false] } = req.query;
+    const skip = (page - 1) * limit;
+    const result = await ModelContacts.find({ favorite }, null, { skip, limit });
 
     if (!result) {
         throw httpError(404, `Movies not found`);
