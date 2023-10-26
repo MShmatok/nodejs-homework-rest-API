@@ -2,6 +2,8 @@ import { Schema, model } from 'mongoose';
 import Joi from "joi";
 import { handlerSaveError, runValidatorsAtUpdate } from '../models/hooks.js';
 
+const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 const contactSchema = new Schema({
     name: {
         type: String,
@@ -9,6 +11,7 @@ const contactSchema = new Schema({
     },
     email: {
         type: String,
+        match: emailRegexp,
         required: [true, 'Set email for contact'],
         unique: true,
     },
@@ -21,7 +24,11 @@ const contactSchema = new Schema({
         type: Boolean,
         default: false,
     },
-})
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    }
+}, { versionKey: false, timestamps: true })
 
 export const ModelContacts = model('contact', contactSchema);
 contactSchema.post('save', handlerSaveError);
