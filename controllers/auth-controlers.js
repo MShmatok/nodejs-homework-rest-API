@@ -50,7 +50,6 @@ const singin = async (req, res, next) => {
             subscription: user.subscription
         }
     })
-
 }
 
 const logout = async (req, res, next) => {
