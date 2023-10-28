@@ -17,7 +17,6 @@ contactsRouter.post('/', authorization, isEmptyBody, ValidatorContacts, contacts
 contactsRouter.put('/:contactId', authorization, isEmptyBody, isIdChecker, ValidatorContacts, contactsControllers.updateById);
 
 contactsRouter.patch('/:contactId/favorite', authorization, isIdChecker, isEmptyBodyFavorite, ValidatorContactsFavorite, contactsControllers.updateByIdFavorite);
-// contactsRouter.patch('/:contactId/favorite', authorization, isIdChecker, isEmptyBodyFavorite, ValidatorContactsFavorite, contactsControllers.updateByIdFavorite);
 
 contactsRouter.delete('/:contactId', authorization, isIdChecker, contactsControllers.deleteById)
 
