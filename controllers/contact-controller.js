@@ -4,6 +4,7 @@ import { httpError } from '../helpers/index.js';
 import { ctrlWrapper } from '../decorators/index.js'
 
 
+
 const getAll = async (req, res) => {
     const { page = 1, limit = 10, favorite = [true, false] } = req.query;
     const skip = (page - 1) * limit;
@@ -26,6 +27,7 @@ const getById = async (req, res) => {
 const addNew = async (req, res) => {
     const result = await ModelContacts.create(req.body);
     res.status(201).json(result);
+
 }
 const updateById = async (req, res) => {
     const { contactId } = req.params;
