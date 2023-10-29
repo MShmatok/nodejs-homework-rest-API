@@ -4,7 +4,10 @@ import jwt from 'jsonwebtoken';
 
 import { httpError } from "../helpers/index.js";
 import { ctrlWrapper } from "../decorators/index.js";
-
+import gravatar from 'gravatar';
+import Jimp from "jimp";
+import path from 'path'
+import fs from 'fs/promises'
 const { JWT_SECRET } = process.env;
 
 const singup = async (req, res, next) => {
@@ -16,7 +19,10 @@ const singup = async (req, res, next) => {
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
-    const newUser = await ModelUser.create({ ...req.body, password: hashPassword });
+    const avatarURL = gravatar.url(email, { s: '200', d: "wavatar" });
+
+    const newUser = await ModelUser.create({ ...req.body, avatarURL, password: hashPassword });
+
 
     res.status(201).json({
         user: {
@@ -61,6 +67,26 @@ const logout = async (req, res, next) => {
     })
 }
 
+
+const changeAvatar = async (req, res, next) => {
+    const { _id } = req.user;
+
+    const saveImagePath = path.resolve('public', 'avatars', req.file.filename)
+    Jimp.read(req.file.path).then((photo) => {
+        return photo
+            .resize(250, 250) // resize
+            .write(saveImagePath); // save
+    })
+
+    const saveImageLink = path.join('avatars', req.file.filename)
+    await ModelUser.findByIdAndUpdate(_id, { avatarURL: saveImageLink });
+    await fs.unlink(req.file.path);
+
+    res.status(200).json({
+        avatarURL: saveImageLink
+    })
+}
+
 const current = async (req, res, next) => {
     const { email, subscription } = req.user;
 
@@ -74,5 +100,6 @@ export default {
     singup: ctrlWrapper(singup),
     singin: ctrlWrapper(singin),
     logout: ctrlWrapper(logout),
-    current: ctrlWrapper(current)
+    current: ctrlWrapper(current),
+    changeAvatar: ctrlWrapper(changeAvatar)
 }
