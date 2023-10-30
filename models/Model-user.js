@@ -29,6 +29,10 @@ const usersSchema = new Schema({
     token: {
         type: String,
         default: ""
+    },
+    verify: {
+        type: Boolean,
+        default: false
     }
 }, { versionKey: false, timestamps: true })
 usersSchema.post('save', handlerSaveError);

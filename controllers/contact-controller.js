@@ -1,7 +1,8 @@
 // import contactService from '../models/contacts/index.js'
 import { ModelContacts } from '../models/Model-contacts.js';
-import { httpError } from '../helpers/index.js';
+import { httpError, sendEmail } from '../helpers/index.js';
 import { ctrlWrapper } from '../decorators/index.js'
+
 
 
 
@@ -9,6 +10,7 @@ const getAll = async (req, res) => {
     const { page = 1, limit = 10, favorite = [true, false] } = req.query;
     const skip = (page - 1) * limit;
     const result = await ModelContacts.find({ favorite }, null, { skip, limit });
+    sendEmail('peralat152@undewp.com', 'HTML', "<p>Hello world!</p>", "Test 1000",)
 
     if (!result) {
         throw httpError(404, `Movies not found`);
