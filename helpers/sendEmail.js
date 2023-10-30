@@ -20,10 +20,10 @@ var callback = function (error, data, response) {
 };
 
 
-const sendEmail = (recipient, contentType, content, subject) => {
+const sendEmail = ({ to, contentType, content, subject }) => {
     const email = ElasticEmail.EmailMessageData.constructFromObject({
         Recipients: [
-            new ElasticEmail.EmailRecipient(recipient)
+            new ElasticEmail.EmailRecipient(to)
         ],
         Content: {
             Body: [
