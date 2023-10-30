@@ -81,7 +81,7 @@ const verify = async (req, res, next) => {
     await ModelUser.findByIdAndUpdate(user._id, { verify: true, verificationCode: '' })
 
     res.status(200).json({
-        message: 'Verify success'
+        message: 'Verification successful'
     })
 }
 
@@ -90,6 +90,9 @@ const resendEmail = async (req, res, next) => {
     const user = await ModelUser.findOne({ email })
     if (!user) {
         throw httpError(404, 'Email is not fund')
+    }
+    if (user.verify) {
+        throw httpError(400, 'Verification has already been passed')
     }
 
     const verifyEmail = {

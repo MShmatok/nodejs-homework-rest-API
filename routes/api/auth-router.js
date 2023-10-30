@@ -14,7 +14,7 @@ const ValidatorVerify = validateBodyReq(verifySchema)
 authRouter.post('/singup', isEmptyBody, ValidatorSingup, authControlers.singup);
 authRouter.post('/singin', isEmptyBody, ValidatorSingin, authControlers.singin);
 authRouter.get('/verify/:verificationCode', authControlers.verify);
-authRouter.post('/verify', isEmptyBody, authControlers.resendEmail);
+authRouter.post('/verify', isEmptyBody, ValidatorVerify, authControlers.resendEmail);
 
 
 authRouter.post('/logout', authorization, authControlers.logout);
